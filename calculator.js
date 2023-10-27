@@ -43,6 +43,45 @@ export default class Calculator {
     }
     this.primaryOperand = this.primaryOperandDisplay.dataset.value + digit;
   }
+  removeDigit() {
+    const numberString = this.primaryOperandDisplay.dataset.value;
+    this.primaryOperandDisplay.dataset.value = numberString.substring(
+      0,
+      numberString.length - 1
+    );
+    if (numberString.length <= 1) {
+      this.primaryOperand = 0;
+      return;
+    }
+  }
+  evaluate() {
+    let result;
+    switch (this.operation) {
+      case "*":
+        result = this.secondaryOperand * this.primaryOperand;
+        break;
+      case "+":
+        result = this.secondaryOperand + this.primaryOperand;
+        break;
+      case "-":
+        result = this.secondaryOperand - this.primaryOperand;
+        break;
+      case "÷":
+        result = this.secondaryOperand / this.primaryOperand;
+        break;
+      default:
+        return;
+    }
+    this.clear();
+    this.primaryOperand = result;
+    return result;
+  }
+  chooseOperation(operation) {
+    if (this.operation !== " ") return;
+    this.operation = operation;
+    this.secondaryOperand = this.primaryOperand;
+    this.primaryOperand = 0;
+  }
   clear() {
     this.primaryOperand = 0;
     this.secondaryOperand = null;
@@ -50,9 +89,7 @@ export default class Calculator {
   }
 }
 
-const NUMBER_FORMATTER = new Intl.NumberFormat("en", {
-  maximumFractionDigits: 20,
-});
+const NUMBER_FORMATTER = new Intl.NumberFormat("en");
 function displayNumber(number) {
   const stringNumber = number?.toString() || " ";
   if (stringNumber === " ") return " ";
