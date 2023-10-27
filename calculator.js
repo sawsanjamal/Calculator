@@ -48,14 +48,12 @@ export default class Calculator {
   }
   removeDigit() {
     const numberString = this.#primaryOperandDisplay.dataset.value;
-    this.#primaryOperandDisplay.dataset.value = numberString.substring(
-      0,
-      numberString.length - 1
-    );
+
     if (numberString.length <= 1) {
       this.primaryOperand = 0;
       return;
     }
+    this.primaryOperand = numberString.substring(0, numberString.length - 1);
   }
   evaluate() {
     let result;
