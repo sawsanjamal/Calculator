@@ -4,36 +4,39 @@ export default class Calculator {
     secondaryOperandDisplay,
     operationDisplay
   ) {
-    this.primaryOperandDisplay = primaryOperandDisplay;
-    this.secondaryOperandDisplay = secondaryOperandDisplay;
-    this.operationDisplay = operationDisplay;
+    this.#primaryOperandDisplay = primaryOperandDisplay;
+    this.#secondaryOperandDisplay = secondaryOperandDisplay;
+    this.#operationDisplay = operationDisplay;
     this.clear();
   }
+  #primaryOperandDisplay;
+  #secondaryOperandDisplay;
+  #operationDisplay;
   get primaryOperand() {
-    return parseFloat(this.primaryOperandDisplay.dataset.value);
+    return parseFloat(this.#primaryOperandDisplay.dataset.value);
   }
 
   set primaryOperand(value) {
-    this.primaryOperandDisplay.textContent = displayNumber(value);
-    this.primaryOperandDisplay.dataset.value = value ?? " ";
+    this.#primaryOperandDisplay.textContent = displayNumber(value);
+    this.#primaryOperandDisplay.dataset.value = value ?? " ";
   }
   get secondaryOperand() {
-    return parseFloat(this.secondaryOperandDisplay.dataset.value);
+    return parseFloat(this.#secondaryOperandDisplay.dataset.value);
   }
   set secondaryOperand(value) {
-    this.secondaryOperandDisplay.textContent = displayNumber(value);
-    this.secondaryOperandDisplay.dataset.value = value ?? " ";
+    this.#secondaryOperandDisplay.textContent = displayNumber(value);
+    this.#secondaryOperandDisplay.dataset.value = value ?? " ";
   }
   get operation() {
-    return this.operationDisplay.textContent;
+    return this.#operationDisplay.textContent;
   }
   set operation(value) {
-    this.operationDisplay.textContent = value ?? " ";
+    this.#operationDisplay.textContent = value ?? " ";
   }
   addDigit(digit) {
     if (
       digit === "." &&
-      this.primaryOperandDisplay.dataset.value.includes(".")
+      this.#primaryOperandDisplay.dataset.value.includes(".")
     ) {
       return;
     }
@@ -41,11 +44,11 @@ export default class Calculator {
       this.primaryOperand = digit;
       return;
     }
-    this.primaryOperand = this.primaryOperandDisplay.dataset.value + digit;
+    this.primaryOperand = this.#primaryOperandDisplay.dataset.value + digit;
   }
   removeDigit() {
-    const numberString = this.primaryOperandDisplay.dataset.value;
-    this.primaryOperandDisplay.dataset.value = numberString.substring(
+    const numberString = this.#primaryOperandDisplay.dataset.value;
+    this.#primaryOperandDisplay.dataset.value = numberString.substring(
       0,
       numberString.length - 1
     );
