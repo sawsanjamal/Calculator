@@ -12,6 +12,7 @@ export default class Calculator {
   #primaryOperandDisplay;
   #secondaryOperandDisplay;
   #operationDisplay;
+
   get primaryOperand() {
     return parseFloat(this.#primaryOperandDisplay.dataset.value);
   }
@@ -68,6 +69,10 @@ export default class Calculator {
         result = this.secondaryOperand - this.primaryOperand;
         break;
       case "÷":
+        if (this.primaryOperand === 0) {
+          result = "Error";
+          break;
+        }
         result = this.secondaryOperand / this.primaryOperand;
         break;
       default:
@@ -83,6 +88,7 @@ export default class Calculator {
     this.secondaryOperand = this.primaryOperand;
     this.primaryOperand = 0;
   }
+
   clear() {
     this.primaryOperand = 0;
     this.secondaryOperand = null;
@@ -94,8 +100,11 @@ const NUMBER_FORMATTER = new Intl.NumberFormat("en");
 function displayNumber(number) {
   const stringNumber = number?.toString() || " ";
   if (stringNumber === " ") return " ";
+  if (stringNumber === "Error") return "Error";
   const [integer, decimal] = stringNumber.split(".");
+  console.log(integer);
   const formattedInteger = NUMBER_FORMATTER.format(integer);
+  console.log(integer);
   if (decimal == null) return formattedInteger;
   return formattedInteger + "." + decimal;
 }
